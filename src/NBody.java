@@ -1,5 +1,5 @@
 /**
- * @author YOUR NAME THE STUDENT IN 201
+ * @author Chelsea Shoben
  * 
  * Simulation program for the NBody assignment
  */
