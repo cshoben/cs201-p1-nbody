@@ -7,7 +7,7 @@
  * @author ola
  *
  * If you add code here, add yourself as @author below
- *
+ * @author Chelsea Shoben
  *
  */
 public class CelestialBody {
@@ -91,38 +91,75 @@ public class CelestialBody {
 	 * @return distance between this body and b
 	 */
 	public double calcDistance(CelestialBody b) {
-		// TODO: complete method
-		return 0.0;
+		double dist;
+		double rSqr;
+		
+		rSqr = (Math.pow( (this.myXPos - b.myXPos) , 2) + Math.pow( (this.myYPos - b.myYPos), 2));
+		dist = Math.sqrt(rSqr);
+		return dist;
 	}
 
 	public double calcForceExertedBy(CelestialBody b) {
-		// TODO: complete method
-		return 0.0;
+		double force;
+		double g = 6.67*1e-11;
+
+		double dist = calcDistance(b);
+
+		force = g * (this.myMass*b.myMass) / Math.pow(dist, 2);
+
+		return force;
 	}
 
 	public double calcForceExertedByX(CelestialBody b) {
-		// TODO: complete method
-		return 0.0;
+		double forceX;
+		forceX = calcForceExertedBy(b) * ((b.myXPos - this.myXPos)) / calcDistance(b);
+
+		return forceX;
 	}
 	public double calcForceExertedByY(CelestialBody b) {
-		// TODO: complete method
-		return 0.0;
+		double forceY;
+		forceY = calcForceExertedBy(b) * ((b.myYPos - this.myYPos)) / calcDistance(b);
+
+		return forceY;
 	}
 
 	public double calcNetForceExertedByX(CelestialBody[] bodies) {
-		// TODO: complete method
 		double sum = 0.0;
+		for(CelestialBody b : bodies) {
+			if (! b.equals(this)){
+				sum += calcForceExertedByX(b);
+			}
+		}
 		return sum;
 	}
 
 	public double calcNetForceExertedByY(CelestialBody[] bodies) {
 		double sum = 0.0;
+		for(CelestialBody b : bodies) {
+			if (! b.equals(this)){
+				sum += calcForceExertedByY(b);
+			}
+			
+		}
 		return sum;
 	}
 
 	public void update(double deltaT, 
 			           double xforce, double yforce) {
-		// TODO: complete method
+		double accX = xforce / this.myMass;
+		double accY = yforce / this.myMass;;
+
+		double nvx = this.myXVel + (deltaT * accX);
+		double nvy = this.myYVel + (deltaT * accY);
+
+		double nx = this.myXPos + (deltaT * nvx);
+		double ny = this.myYPos + (deltaT * nvy);
+
+		this.myXPos = nx;
+		this.myYPos = ny;
+		this.myXVel = nvx;
+		this.myYVel = nvy;
+
 	}
 
 	/**
